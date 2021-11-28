@@ -1,13 +1,16 @@
 package com.hardik.plutocracy.utils;
 
 import java.time.LocalDateTime;
+import java.util.Arrays;
 import java.util.UUID;
+import java.util.stream.Collectors;
 
 import org.json.JSONObject;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Component;
 
 import com.hardik.plutocracy.constant.BalanceModeType;
+import com.hardik.plutocracy.constant.ContextType;
 import com.hardik.plutocracy.constant.TicketType;
 
 @Component
@@ -115,6 +118,27 @@ public class ResponseUtils {
 		final var response = new JSONObject();
 		response.put("message", "Ticket Saved Successfully!");
 		response.put("future_ticket_id", futureTicketId);
+		response.put("timestamp", LocalDateTime.now().toString());
+		return ResponseEntity.ok(response.toString());
+	}
+
+	public ResponseEntity<?> contextTypeListResponse() {
+		return ResponseEntity.ok(Arrays.stream(ContextType.values()).map(contextType -> contextType.getName())
+				.collect(Collectors.toList()));
+	}
+
+	public ResponseEntity<?> goalSuccessResponse(final UUID goalId) {
+		final var response = new JSONObject();
+		response.put("message", "Goal Saved Successfully!");
+		response.put("goal_id", goalId);
+		response.put("timestamp", LocalDateTime.now().toString());
+		return ResponseEntity.ok(response.toString());
+	}
+
+	public ResponseEntity<?> noteSuccessResponse(final UUID noteId) {
+		final var response = new JSONObject();
+		response.put("message", "Note Saved Successfully!");
+		response.put("note_id", noteId);
 		response.put("timestamp", LocalDateTime.now().toString());
 		return ResponseEntity.ok(response.toString());
 	}
